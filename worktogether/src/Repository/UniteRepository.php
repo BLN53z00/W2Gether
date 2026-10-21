@@ -16,6 +16,20 @@ class UniteRepository extends ServiceEntityRepository
         parent::__construct($registry, Unite::class);
     }
 
+    public function findByClient(\App\Entity\Client $client): array
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.commande', 'c')
+            ->join('u.baie', 'b')
+            ->addSelect('b')
+            ->where('c.client = :client')
+            ->setParameter('client', $client)
+            ->orderBy('b.numero', 'ASC')
+            ->addOrderBy('u.numero', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Unite[] Returns an array of Unite objects
 //     */

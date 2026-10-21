@@ -1,8 +1,0 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Mon espace{% endblock %}
-
-{% block body %}
-    <h1>Bienvenue {{ app.user.prenom }} {{ app.user.nom }}</h1>
-    <p><a href="{{ path('app_logout') }}">Déconnexion</a></p>
-{% endblock %}
