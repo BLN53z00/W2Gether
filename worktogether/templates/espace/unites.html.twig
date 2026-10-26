@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes unités{% endblock %}
+
+{% block body %}
+    <h1>Mes unités</h1>
+    <p><a href="{{ path('espace_accueil') }}">← Retour</a></p>
+
+    {% for message in app.flashes('success') %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+
+    <table border="1" cellpadding="6">
+        <tr>
+            <th>Emplacement</th>
+            <th>Nom</th>
+            <th>Type</th>
+            <th>Couleur</th>
+            <th>État</th>
+            <th></th>
+        </tr>
+        {% for u in unites %}
+            <tr>
+                <td>{{ u.baie.numero }}-U{{ '%02d'|format(u.numero) }}</td>
+                <td>{{ u.nom ?? '—' }}</td>
+                <td>{{ u.type ?? '—' }}</td>
+                <td>
+                    <span style="display:inline-block;width:24px;height:16px;background:{{ u.couleur ?? '#cccccc' }};border:1px solid #666;"></span>
+                </td>
+                <td>{{ u.etat.value|capitalize }}</td>
+                <td><a href="{{ path('espace_unite_edit', {id: u.id}) }}">Modifier</a></td>
+            </tr>
+        {% else %}
+            <tr><td colspan="6">Vous n'avez aucune unité pour le moment.</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

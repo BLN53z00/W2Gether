@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue {{ app.user.prenom }} {{ app.user.nom }}</h1>
+
+    <ul>
+        <li>Unités louées : <strong>{{ nbUnites }}</strong></li>
+        <li>Baies utilisées : <strong>{{ nbBaies }}</strong></li>
+        <li>Unités en incident ou maintenance : <strong>{{ nbIncidents }}</strong></li>
+    </ul>
+
+    <p>
+        <a href="{{ path('espace_unites') }}">Mes unités</a> |
+        <a href="{{ path('espace_baies') }}">Mes baies</a> |
+        <a href="{{ path('app_logout') }}">Déconnexion</a>
+    </p>
+{% endblock %}

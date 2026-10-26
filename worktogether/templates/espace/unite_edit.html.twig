@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'unité{% endblock %}
+
+{% block body %}
+    <h1>Modifier l'unité {{ unite.baie.numero }}-U{{ '%02d'|format(unite.numero) }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+
+    <p><a href="{{ path('espace_unites') }}">Annuler</a></p>
+{% endblock %}
