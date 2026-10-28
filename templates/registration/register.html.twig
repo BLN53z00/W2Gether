@@ -1,31 +1,387 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscription | WorkTogether Data Solutions</title>
+    <style>
+        :root {
+            --bg-dark: #0b1220;
+            --bg-dark-2: #131c31;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #cbd5e1;
+            --danger-bg: #fef2f2;
+            --danger-text: #b91c1c;
+            --danger-border: #fecaca;
+        }
 
-{% block title %}Inscription{% endblock %}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-{% block body %}
-    <h1>Créer un compte</h1>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+        }
 
-    {{ form_errors(registrationForm) }}
+        /* ---------- Panneau gauche (marque) ---------- */
+        .brand {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, .35), transparent 45%),
+                radial-gradient(circle at 80% 85%, rgba(14, 165, 233, .25), transparent 40%),
+                linear-gradient(160deg, var(--bg-dark), var(--bg-dark-2));
+            color: #e2e8f0;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.nom, {
-        label: 'Nom'
-    }) }}
-    {{ form_row(registrationForm.prenom, {
-        label: 'Prénom'
-    }) }}
-    {{ form_row(registrationForm.email, {
-        label: 'Adresse e-mail'
-    }) }}
-    {{ form_row(registrationForm.plainPassword, {
-        label: 'Mot de passe'
-    }) }}
-    {{ form_row(registrationForm.agreeTerms, {
-        label: 'J\'accepte les conditions d\'utilisation'
-    }) }}
+        .brand::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, .035) 0,
+                rgba(255, 255, 255, .035) 1px,
+                transparent 1px,
+                transparent 18px
+            );
+            pointer-events: none;
+        }
 
-    <button type="submit" class="btn">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+        .brand > * { position: relative; z-index: 1; }
 
-    <p>Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
-{% endblock %}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: .3px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--accent);
+            display: grid;
+            place-items: center;
+            font-size: 1.15rem;
+        }
+
+        .pitch h2 {
+            font-size: 2rem;
+            line-height: 1.25;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .pitch p { color: #94a3b8; max-width: 30rem; line-height: 1.6; }
+
+        .features {
+            margin-top: 2rem;
+            list-style: none;
+            display: grid;
+            gap: .85rem;
+        }
+
+        .features li {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            color: #cbd5e1;
+        }
+
+        .features .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, .18);
+            flex-shrink: 0;
+        }
+
+        .brand small { color: #64748b; }
+
+        /* ---------- Panneau droit (formulaire) ---------- */
+        .panel {
+            background: #f8fafc;
+            display: grid;
+            place-items: center;
+            padding: 2rem 1.25rem;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2.25rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+        }
+
+        .card h1 { font-size: 1.6rem; margin-bottom: .35rem; }
+        .card .subtitle { color: var(--muted); margin-bottom: 1.75rem; font-size: .95rem; }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .field { margin-bottom: 1.15rem; }
+
+        label {
+            display: block;
+            font-size: .88rem;
+            font-weight: 600;
+            margin-bottom: .4rem;
+        }
+
+        .input-wrap { position: relative; }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: .8rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+            color: var(--text);
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, .18);
+        }
+
+        .hint {
+            margin-top: .35rem;
+            font-size: .8rem;
+            color: var(--muted);
+        }
+
+        /* Erreurs de validation Symfony */
+        .errors ul,
+        ul.form-errors {
+            list-style: none;
+            margin-top: .4rem;
+        }
+
+        .errors li,
+        ul.form-errors li {
+            color: var(--danger-text);
+            font-size: .85rem;
+        }
+
+        .global-errors {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+            border: 1px solid var(--danger-border);
+            border-radius: 10px;
+            padding: .75rem 1rem;
+            margin-bottom: 1.25rem;
+            font-size: .92rem;
+        }
+
+        .global-errors:empty { display: none; }
+        .global-errors ul { list-style: none; }
+
+        .toggle {
+            position: absolute;
+            right: .5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: .4rem .6rem;
+            border-radius: 6px;
+        }
+
+        .toggle:hover { color: var(--accent); }
+
+        .check {
+            display: flex;
+            align-items: flex-start;
+            gap: .6rem;
+            margin-bottom: 1.15rem;
+        }
+
+        .check input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: .15rem;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .check label {
+            margin: 0;
+            font-weight: 500;
+            font-size: .9rem;
+            color: var(--muted);
+        }
+
+        .btn {
+            width: 100%;
+            padding: .85rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background .15s, transform .05s;
+            margin-top: .5rem;
+        }
+
+        .btn:hover { background: var(--accent-hover); }
+        .btn:active { transform: translateY(1px); }
+
+        .footer-links {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: .92rem;
+            color: var(--muted);
+        }
+
+        .footer-links a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { text-decoration: underline; }
+
+        .back-home { margin-top: .75rem; }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 860px) {
+            body { grid-template-columns: 1fr; }
+            .brand { padding: 1.75rem 1.5rem; gap: 1.5rem; }
+            .pitch h2 { font-size: 1.5rem; }
+            .features, .brand small { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .row { grid-template-columns: 1fr; gap: 0; }
+            .card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<aside class="brand">
+    <a class="logo" href="{{ path('app_home') }}">
+        <span class="logo-mark">🗄️</span>
+        WorkTogether
+    </a>
+
+    <div class="pitch">
+        <h2>Rejoignez WorkTogether et hébergez vos équipements en toute sérénité.</h2>
+        <p>
+            Créez votre compte client pour louer des baies ou des unités dans nos datacenters,
+            suivre leur état et gérer vos équipements.
+        </p>
+
+        <ul class="features">
+            <li><span class="dot"></span> Location flexible : baie, demi-baie, quart de baie ou unité</li>
+            <li><span class="dot"></span> Sécurité physique et électronique</li>
+            <li><span class="dot"></span> Suivi de vos unités en ligne</li>
+        </ul>
+    </div>
+
+    <small>&copy; {{ 'now'|date('Y') }} WorkTogether Data Solutions</small>
+</aside>
+
+<main class="panel">
+    <div class="card">
+        <h1>Créer un compte</h1>
+        <p class="subtitle">Quelques informations suffisent pour commencer.</p>
+
+        <div class="global-errors">{{ form_errors(registrationForm) }}</div>
+
+        {{ form_start(registrationForm) }}
+
+        <div class="row">
+            <div class="field">
+                {{ form_label(registrationForm.nom, 'Nom') }}
+                {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Durand', 'autocomplete': 'family-name'}}) }}
+                <div class="errors">{{ form_errors(registrationForm.nom) }}</div>
+            </div>
+
+            <div class="field">
+                {{ form_label(registrationForm.prenom, 'Prénom') }}
+                {{ form_widget(registrationForm.prenom, {'attr': {'placeholder': 'Paul', 'autocomplete': 'given-name'}}) }}
+                <div class="errors">{{ form_errors(registrationForm.prenom) }}</div>
+            </div>
+        </div>
+
+        <div class="field">
+            {{ form_label(registrationForm.email, 'Adresse e-mail') }}
+            {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'vous@entreprise.fr', 'autocomplete': 'email'}}) }}
+            <div class="errors">{{ form_errors(registrationForm.email) }}</div>
+        </div>
+
+        <div class="field">
+            {{ form_label(registrationForm.plainPassword, 'Mot de passe') }}
+            <div class="input-wrap">
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Au moins 8 caractères', 'autocomplete': 'new-password'}}) }}
+                <button type="button" class="toggle" id="togglePassword"
+                        aria-label="Afficher ou masquer le mot de passe">Afficher</button>
+            </div>
+            <p class="hint">8 caractères minimum.</p>
+            <div class="errors">{{ form_errors(registrationForm.plainPassword) }}</div>
+        </div>
+
+        <div class="check">
+            {{ form_widget(registrationForm.agreeTerms) }}
+            {{ form_label(registrationForm.agreeTerms, 'J’accepte les conditions d’utilisation') }}
+        </div>
+        <div class="errors">{{ form_errors(registrationForm.agreeTerms) }}</div>
+
+        <button class="btn" type="submit">Créer mon compte</button>
+
+        {{ form_end(registrationForm) }}
+
+        <p class="footer-links">
+            Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
+        </p>
+        <p class="footer-links back-home">
+            <a href="{{ path('app_home') }}">← Retour à l’accueil</a>
+        </p>
+    </div>
+</main>
+
+<script>
+    const champ = document.getElementById('{{ registrationForm.plainPassword.vars.id }}');
+    const bouton = document.getElementById('togglePassword');
+    bouton.addEventListener('click', () => {
+        const visible = champ.type === 'text';
+        champ.type = visible ? 'password' : 'text';
+        bouton.textContent = visible ? 'Afficher' : 'Masquer';
+    });
+</script>
+</body>
+</html>

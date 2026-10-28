@@ -15,13 +15,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/mon-espace')]
 #[IsGranted('ROLE_CLIENT')]
-class EspaceClientController extends AbstractController
+class EspaceClientController extends BaseController
 {
     // Tableau de bord
-    #[Route('', name: 'espace_accueil')]
+    #[Route('/index', name: 'espace_accueil')]
     public function index(UniteRepository $repo): Response
     {
-        $unites = $repo->findByClient($this->getUser());
+        $unites = $repo->findByClient($this->getClient());
 
         $baies = [];
         $incidents = 0;
@@ -44,7 +44,7 @@ class EspaceClientController extends AbstractController
     public function unites(UniteRepository $repo): Response
     {
         return $this->render('espace/unites.html.twig', [
-            'unites' => $repo->findByClient($this->getUser()),
+            'unites' => $repo->findByClient($this->getClient()),
         ]);
     }
 
@@ -76,7 +76,7 @@ class EspaceClientController extends AbstractController
     #[Route('/baies', name: 'espace_baies')]
     public function baies(UniteRepository $repo): Response
     {
-        $mesUnites = $repo->findByClient($this->getUser());
+        $mesUnites = $repo->findByClient($this->getClient());
 
         // Regroupe par baie : [id baie => ['baie' => Baie, 'unites' => [numero => Unite]]]
         $baies = [];
