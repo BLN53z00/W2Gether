@@ -33,7 +33,7 @@ La tarification annuelle ajoute 10 % de remise supplémentaire.
 | Symfony | 7.4 (LTS) |
 | Doctrine ORM / Migrations / Fixtures | inclus avec `--webapp` |
 | Twig | inclus avec `--webapp` |
-| Base de données | MySQL (WampServer) |
+| Base de données | MySQL 8 (Docker) |
 | Gestion de version | Git / GitHub |
 
 **Remarque :** Symfony 8.1 exige PHP 8.4.1 ou plus. L'environnement fournissant PHP 8.4.0, la version **LTS 7.4** a été retenue (stable, compatible et bien documentée).
@@ -59,12 +59,13 @@ cd W2Gether/worktogether
 
 # 2. Installer les dépendances
 composer install
+docker compose up -d
 ```
 
 3. Créer le fichier `.env.local` (non versionné) et y indiquer l'accès à la base de données :
 
 ```env
-DATABASE_URL="mysql://root:@127.0.0.1:3306/worktogether?serverVersion=8.0&charset=utf8mb4"
+DATABASE_URL="mysql://app:app@127.0.0.1:3308/worktogether?serverVersion=8.0&charset=utf8mb4"
 ```
 
 ```bash
