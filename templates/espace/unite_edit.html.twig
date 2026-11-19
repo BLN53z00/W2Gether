@@ -3,12 +3,27 @@
 {% block title %}Modifier l'unité{% endblock %}
 
 {% block body %}
-    <h1>Modifier l'unité {{ unite.baie.numero }}-U{{ '%02d'|format(unite.numero) }}</h1>
+    {% set labels = {ok: 'Opérationnelle', incident: 'Incident', maintenance: 'Maintenance'} %}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Enregistrer</button>
-    {{ form_end(form) }}
+    <div class="page-header">
+        <h1>Modifier l’unité {{ unite.baie.numero }}-U{{ '%02d'|format(unite.numero) }}</h1>
+        <p>
+            État actuel :
+            <span class="badge badge-{{ unite.etat.value }}">{{ labels[unite.etat.value] }}</span>
+            · L’emplacement et l’état sont gérés par WorkTogether.
+        </p>
+    </div>
 
-    <p><a href="{{ path('espace_unites') }}">Annuler</a></p>
+    <div class="card form-card">
+        {{ form_start(form) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.couleur) }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Enregistrer</button>
+            <a class="btn btn-outline" href="{{ path('espace_unites') }}">Annuler</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

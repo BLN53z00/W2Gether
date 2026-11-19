@@ -3,35 +3,49 @@
 {% block title %}Mes unités{% endblock %}
 
 {% block body %}
-    <h1>Mes unités</h1>
-    <p><a href="{{ path('espace_accueil') }}">← Retour</a></p>
+    {% set labels = {ok: 'Opérationnelle', incident: 'Incident', maintenance: 'Maintenance'} %}
 
-    {% for message in app.flashes('success') %}
-        <p style="color: green;">{{ message }}</p>
-    {% endfor %}
+    <div class="page-header">
+        <h1>Mes unités</h1>
+        <p>
+            {{ unites|length }} unité{{ unites|length > 1 ? 's' : '' }} louée{{ unites|length > 1 ? 's' : '' }}.
+            Vous pouvez personnaliser le nom, le type et la couleur de chacune.
+        </p>
+    </div>
 
-    <table border="1" cellpadding="6">
-        <tr>
-            <th>Emplacement</th>
-            <th>Nom</th>
-            <th>Type</th>
-            <th>Couleur</th>
-            <th>État</th>
-            <th></th>
-        </tr>
-        {% for u in unites %}
-            <tr>
-                <td>{{ u.baie.numero }}-U{{ '%02d'|format(u.numero) }}</td>
-                <td>{{ u.nom ?? '—' }}</td>
-                <td>{{ u.type ?? '—' }}</td>
-                <td>
-                    <span style="display:inline-block;width:24px;height:16px;background:{{ u.couleur ?? '#cccccc' }};border:1px solid #666;"></span>
-                </td>
-                <td>{{ u.etat.value|capitalize }}</td>
-                <td><a href="{{ path('espace_unite_edit', {id: u.id}) }}">Modifier</a></td>
-            </tr>
+    <div class="card">
+        {% if unites is empty %}
+            <p>Vous n’avez aucune unité pour le moment.</p>
         {% else %}
-            <tr><td colspan="6">Vous n'avez aucune unité pour le moment.</td></tr>
-        {% endfor %}
-    </table>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Emplacement</th>
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>État</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for u in unites %}
+                        <tr>
+                            <td><strong>{{ u.baie.numero }}-U{{ '%02d'|format(u.numero) }}</strong></td>
+                            <td>
+                                <span class="color-dot" style="background: {{ u.couleur ?? '#cbd5e1' }}"></span>
+                                {{ u.nom ?? '—' }}
+                            </td>
+                            <td>{{ u.type ?? '—' }}</td>
+                            <td>
+                                <span class="badge badge-{{ u.etat.value }}">{{ labels[u.etat.value] }}</span>
+                            </td>
+                            <td><a href="{{ path('espace_unite_edit', {id: u.id}) }}">Modifier</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

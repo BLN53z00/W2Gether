@@ -1,19 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon espace{% endblock %}
+{% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue {{ app.user.prenom }} {{ app.user.nom }}</h1>
+    <div class="page-header">
+        <h1>Bonjour {{ app.user.prenom }}</h1>
+        <p>
+            {% if app.user.entreprise %}{{ app.user.entreprise }} · {% endif %}
+            Voici un résumé de votre espace client.
+        </p>
+    </div>
 
-    <ul>
-        <li>Unités louées : <strong>{{ nbUnites }}</strong></li>
-        <li>Baies utilisées : <strong>{{ nbBaies }}</strong></li>
-        <li>Unités en incident ou maintenance : <strong>{{ nbIncidents }}</strong></li>
-    </ul>
+    <div class="card stats">
+        <div class="stat">
+            <div class="stat-value">{{ nbUnites }}</div>
+            <div class="stat-label">Unités louées</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">{{ nbBaies }}</div>
+            <div class="stat-label">Baies utilisées</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">{{ nbIncidents }}</div>
+            <div class="stat-label">Incident ou maintenance</div>
+        </div>
+    </div>
 
-    <p>
-        <a href="{{ path('espace_unites') }}">Mes unités</a> |
-        <a href="{{ path('espace_baies') }}">Mes baies</a> |
-        <a href="{{ path('app_logout') }}">Déconnexion</a>
-    </p>
+    <div class="links">
+        <div class="card">
+            <h2>Mes unités</h2>
+            <p>Consultez l’emplacement et l’état de vos unités, puis personnalisez leur nom, type et couleur.</p>
+            <a class="btn" href="{{ path('espace_unites') }}">Gérer mes unités</a>
+        </div>
+
+        <div class="card">
+            <h2>Mes baies</h2>
+            <p>Visualisez vos équipements dans la baie, avec ses 42 emplacements.</p>
+            <a class="btn btn-outline" href="{{ path('espace_baies') }}">Voir mes baies</a>
+        </div>
+    </div>
 {% endblock %}

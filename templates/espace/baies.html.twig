@@ -3,30 +3,42 @@
 {% block title %}Mes baies{% endblock %}
 
 {% block body %}
-    <h1>Mes baies</h1>
-    <p><a href="{{ path('espace_accueil') }}">← Retour</a></p>
+    <div class="page-header">
+        <h1>Mes baies</h1>
+        <p>Chaque baie compte 42 emplacements, numérotés de U01 (en bas) à U42 (en haut).</p>
+    </div>
 
-    {% for data in baies %}
-        {% set baie = data.baie %}
-        {% set unitesParNumero = data.unites %}
-
-        <h2>Baie {{ baie.numero }}</h2>
-        <div style="display:flex;flex-direction:column-reverse;width:260px;border:2px solid #333;">
-            {% for n in 1..baie.nbUnites %}
-                {% if unitesParNumero[n] is defined %}
-                    {% set u = unitesParNumero[n] %}
-                    <div style="height:16px;font-size:11px;border-bottom:1px solid #ddd;padding-left:4px;background:{{ u.couleur ?? '#cccccc' }};color:#000;">
-                        U{{ '%02d'|format(n) }}
-                        {% if u.nom %}– <a href="{{ path('espace_unite_edit', {id: u.id}) }}">{{ u.nom }}</a>{% endif %}
-                    </div>
-                {% else %}
-                    <div style="height:16px;font-size:11px;border-bottom:1px solid #ddd;padding-left:4px;background:#f5f5f5;color:#aaa;">
-                        U{{ '%02d'|format(n) }}
-                    </div>
-                {% endif %}
-            {% endfor %}
+    {% if baies is empty %}
+        <div class="card">
+            <p>Vous n’avez aucune baie pour le moment.</p>
         </div>
     {% else %}
-        <p>Vous n'avez aucune baie pour le moment.</p>
-    {% endfor %}
+        <div class="racks">
+            {% for data in baies %}
+                {% set baie = data.baie %}
+                {% set unitesParNumero = data.unites %}
+
+                <div class="card">
+                    <h2>Baie {{ baie.numero }}</h2>
+                    <p class="rack-count">{{ unitesParNumero|length }} unité{{ unitesParNumero|length > 1 ? 's' : '' }} sur {{ baie.nbUnites }}</p>
+
+                    <div class="rack">
+                        {% for n in 1..baie.nbUnites %}
+                            {% if unitesParNumero[n] is defined %}
+                                {% set u = unitesParNumero[n] %}
+                                <div class="rack-slot rack-slot-used" style="border-left-color: {{ u.couleur ?? '#3b82f6' }}">
+                                    <span class="rack-num">U{{ '%02d'|format(n) }}</span>
+                                    <a href="{{ path('espace_unite_edit', {id: u.id}) }}">{{ u.nom ?? 'Sans nom' }}</a>
+                                </div>
+                            {% else %}
+                                <div class="rack-slot">
+                                    <span class="rack-num">U{{ '%02d'|format(n) }}</span>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

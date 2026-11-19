@@ -1,3 +1,319 @@
+/* ==========================================================
+   WorkTogether Data Solutions : feuille de style commune
+   À placer dans assets/styles/app.css
+   ========================================================== */
+
+:root {
+    --bg: #f8fafc;
+    --bg-dark: #0b1220;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --input-border: #cbd5e1;
+    --ok: #15803d;
+    --ok-bg: #dcfce7;
+    --warn: #b45309;
+    --warn-bg: #fef3c7;
+    --danger: #b91c1c;
+    --danger-bg: #fee2e2;
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    background-color: white;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Navigation ---------- */
+.nav { background: var(--bg-dark); }
+
+.nav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: .9rem 1.25rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem 1.5rem;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.nav-logo:hover { text-decoration: none; }
+
+.nav-logo-mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--accent);
+}
+
+.nav-links { display: flex; gap: .25rem; flex: 1; flex-wrap: wrap; }
+
+.nav-links a {
+    color: #94a3b8;
+    padding: .4rem .75rem;
+    border-radius: 8px;
+    font-size: .93rem;
+    font-weight: 500;
+}
+
+.nav-links a:hover { color: #fff; text-decoration: none; }
+.nav-links a.active { color: #fff; background: rgba(255, 255, 255, .1); }
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: .9rem;
+    color: #94a3b8;
+}
+
+.nav-user a { color: #e2e8f0; font-weight: 500; }
+
+/* ---------- Contenu ---------- */
+.container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2.25rem 1.25rem;
+    flex: 1;
+}
+
+.page-header { margin-bottom: 1.75rem; }
+.page-header h1 { font-size: 1.6rem; margin-bottom: .3rem; }
+.page-header p { color: var(--muted); font-size: .95rem; }
+
+.card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, .04);
+}
+
+.card h2 { font-size: 1.05rem; margin-bottom: .35rem; }
+.card p { color: var(--muted); font-size: .92rem; }
+
+/* ---------- Boutons ---------- */
+.btn {
+    display: inline-block;
+    padding: .65rem 1.1rem;
+    font-size: .95rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn:hover { background: var(--accent-hover); text-decoration: none; }
+
+.btn-outline { background: #fff; color: var(--accent); }
+.btn-outline:hover { background: #eff6ff; }
+
+/* ---------- Badges d'état ---------- */
+.badge {
+    display: inline-block;
+    padding: .15rem .6rem;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+.badge-ok { background: var(--ok-bg); color: var(--ok); }
+.badge-maintenance { background: var(--warn-bg); color: var(--warn); }
+.badge-incident { background: var(--danger-bg); color: var(--danger); }
+
+/* ---------- Tableaux ---------- */
+.table-wrap { overflow-x: auto; }
+table.table { width: 100%; border-collapse: collapse; }
+
+.table th {
+    text-align: left;
+    font-size: .8rem;
+    color: var(--muted);
+    font-weight: 600;
+    padding: .6rem .75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.table td {
+    padding: .8rem .75rem;
+    border-bottom: 1px solid var(--border);
+    font-size: .95rem;
+}
+
+.table tr:last-child td { border-bottom: none; }
+
+.color-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(15, 23, 42, .2);
+    vertical-align: middle;
+    margin-right: .35rem;
+}
+
+/* ---------- Formulaires ---------- */
+.form-card { max-width: 480px; }
+
+.form-card label {
+    display: block;
+    font-size: .88rem;
+    font-weight: 600;
+    margin-bottom: .4rem;
+}
+
+.form-card input[type="text"],
+.form-card input[type="email"],
+.form-card input[type="password"],
+.form-card select {
+    width: 100%;
+    padding: .75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    margin-bottom: 1.1rem;
+}
+
+.form-card input[type="color"] {
+    width: 60px;
+    height: 40px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background: #fff;
+    padding: 2px;
+    margin-bottom: 1.1rem;
+    cursor: pointer;
+}
+
+.form-card input:focus,
+.form-card select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, .18);
+}
+
+.form-actions { display: flex; gap: .75rem; align-items: center; margin-top: .5rem; }
+
+/* ---------- Messages flash ---------- */
+.flash {
+    padding: .75rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    font-size: .93rem;
+    border: 1px solid transparent;
+}
+
+.flash-success { background: var(--ok-bg); color: var(--ok); border-color: #bbf7d0; }
+.flash-error,
+.flash-danger { background: var(--danger-bg); color: var(--danger); border-color: #fecaca; }
+
+/* ---------- Pied de page ---------- */
+.footer {
+    text-align: center;
+    padding: 1.25rem;
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+/* ---------- Tableau de bord ---------- */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    margin-bottom: 1.25rem;
+}
+
+.stat { padding: .25rem 1.25rem; border-left: 1px solid var(--border); }
+.stat:first-child { border-left: none; padding-left: 0; }
+
+.stat-value { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+.stat-label { color: var(--muted); font-size: .88rem; }
+
+.links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+}
+
+.links .card p { margin-bottom: 1.1rem; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+    .stat { border-left: none; padding: .6rem 0; }
+}
+
+/* ---------- Vue des baies ---------- */
+.racks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+.rack-count { margin-bottom: 1rem; }
+
+/* U01 en bas, comme dans une vraie baie */
+.rack {
+    display: flex;
+    flex-direction: column-reverse;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.rack-slot {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    height: 22px;
+    padding: 0 .6rem;
+    font-size: .75rem;
+    color: #94a3b8;
+    border-bottom: 1px solid var(--border);
+    border-left: 4px solid transparent;
+}
+
+.rack-slot:last-child { border-bottom: none; }
+
+.rack-slot-used {
+    background: #fff;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.rack-num { width: 28px; font-variant-numeric: tabular-nums; }
+
+/* ---------- Erreurs de formulaire ---------- */
+.form-card ul {
+    list-style: none;
+    margin-bottom: .5rem;
+}
+
+.form-card ul li {
+    color: var(--danger);
+    font-size: .85rem;
 }
