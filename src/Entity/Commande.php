@@ -32,7 +32,7 @@ class Commande
     private ?string $prixTotal = null;
 
     #[ORM\ManyToOne(inversedBy: 'relation')]
-    private ?client $client = null;
+    private ?Client $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservation')]
     private ?Offre $offre = null;
@@ -118,7 +118,7 @@ class Commande
         return $this->client;
     }
 
-    public function setClient(?client $client): static
+    public function setClient(?Client $client): static
     {
         $this->client = $client;
 

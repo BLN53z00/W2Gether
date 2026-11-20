@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <h1>Hébergez vos équipements dans nos datacenters</h1>
+        <p>
+            WorkTogether Data Solutions vous permet de louer une baie complète, une demi-baie,
+            un quart de baie ou de simples unités, pour vous concentrer sur votre cœur de métier.
+        </p>
+
+        <div class="hero-actions">
+            {% if is_granted('ROLE_CLIENT') %}
+                <a class="btn" href="{{ path('espace_accueil') }}">Accéder à mon espace</a>
+                <a class="btn btn-outline" href="{{ path('app_offres') }}">Voir nos offres</a>
+            {% elseif not app.user %}
+                <a class="btn" href="{{ path('app_register') }}">Créer un compte</a>
+                <a class="btn btn-outline" href="{{ path('app_login') }}">Connexion</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Notre activité</h2>
+        <p class="section-text">
+            WorkTogether Data Solutions est spécialisée dans la gestion de datacenters de pointe.
+            Forte de son expertise en matière de sécurité, de fiabilité et de durabilité, l’entreprise
+            garantit la disponibilité, la performance et la sécurité des infrastructures informatiques de ses clients.
+        </p>
+
+        <div class="features">
+            <div class="card">
+                <h3>Connectivité ultrarapide</h3>
+                <p>Vos équipements bénéficient d’une connexion performante pour garantir la disponibilité de vos services.</p>
+            </div>
+            <div class="card">
+                <h3>Redondance électrique</h3>
+                <p>Une alimentation sécurisée et redondante, pour protéger vos installations des coupures.</p>
+            </div>
+            <div class="card">
+                <h3>Sécurité renforcée</h3>
+                <p>Une protection physique et électronique de vos installations, pour préserver vos données sensibles.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Une location flexible</h2>
+        <p class="section-text">
+            Louez uniquement l’espace dont vous avez besoin, sans investir dans votre propre datacenter.
+        </p>
+
+        <div class="features features-4">
+            <div class="card">
+                <h3>Baie complète</h3>
+                <p>42 unités</p>
+            </div>
+            <div class="card">
+                <h3>Demi-baie</h3>
+                <p>21 unités</p>
+            </div>
+            <div class="card">
+                <h3>Quart de baie</h3>
+                <p>10 unités</p>
+            </div>
+            <div class="card">
+                <h3>Unité seule</h3>
+                <p>1 unité</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

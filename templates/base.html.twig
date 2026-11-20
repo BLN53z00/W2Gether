@@ -19,8 +19,11 @@
         </a>
 
         <div class="nav-links">
+            <a href="{{ path('app_home') }}" class="{{ route == 'app_home' ? 'active' : '' }}">Accueil</a>
+            <a href="{{ path('app_offres') }}" class="{{ route == 'app_offres' ? 'active' : '' }}">Offres</a>
+
             {% if is_granted('ROLE_CLIENT') %}
-                <a href="{{ path('espace_accueil') }}" class="{{ route == 'espace_accueil' ? 'active' : '' }}">Tableau de bord</a>
+                <a href="{{ path('espace_accueil') }}" class="{{ route == 'espace_accueil' ? 'active' : '' }}">Mon espace</a>
                 <a href="{{ path('espace_unites') }}" class="{{ route in ['espace_unites', 'espace_unite_edit'] ? 'active' : '' }}">Mes unités</a>
                 <a href="{{ path('espace_baies') }}" class="{{ route == 'espace_baies' ? 'active' : '' }}">Mes baies</a>
             {% endif %}

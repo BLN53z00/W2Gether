@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos offres{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Nos offres</h1>
+        <p>Louez la capacité dont vous avez besoin. Le tarif annuel inclut 10 % de remise supplémentaire.</p>
+    </div>
+
+    {% if offres is empty %}
+        <div class="card">
+            <p>Aucune offre n’est disponible pour le moment.</p>
+        </div>
+    {% else %}
+        <div class="pricing">
+            {% for o in offres %}
+                <div class="card price-card">
+                    <h2>{{ o.offre.nom }}</h2>
+
+                    <p class="price-units">
+                        {{ o.offre.nbUnites }} unité{{ o.offre.nbUnites > 1 ? 's' : '' }}
+                    </p>
+
+                    <p class="price-main">
+                        {{ o.mensuel|number_format(0, ',', ' ') }} €<span> / mois</span>
+                    </p>
+
+                    {% if o.offre.remisePourcent > 0 %}
+                        <span class="badge badge-ok">-{{ o.offre.remisePourcent }} %</span>
+                    {% else %}
+                        <span class="badge badge-neutral">Prix de base</span>
+                    {% endif %}
+
+                    <ul class="price-details">
+                        <li>{{ o.parUnite|number_format(0, ',', ' ') }} € par unité et par mois</li>
+                        <li>{{ o.annuel|number_format(0, ',', ' ') }} € par an (-10 % supplémentaires)</li>
+                    </ul>
+
+                    {% if not app.user %}
+                        <a class="btn" href="{{ path('app_register') }}">Créer un compte</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if app.user %}
+            <p class="section-text" style="margin-top:1.5rem">
+                La commande en ligne sera bientôt disponible depuis votre espace client.
+            </p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
